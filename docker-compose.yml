@@ -1,0 +1,105 @@
+# =============================================================================
+# Decision Intelligence Platform — full local stack.
+#
+# Services: postgres, redis, backend (FastAPI), frontend (nginx-served SPA).
+# Every service declares a health check; the backend waits for its datastores
+# to be *healthy* (not merely started) before booting, eliminating startup
+# race conditions. Named volumes persist database/cache state across restarts.
+#
+# Usage:
+#   docker compose up --build          # start everything
+#   docker compose down                # stop
+#   docker compose down -v             # stop and wipe data volumes
+#
+# A docker-compose.override.yml (auto-loaded) enables backend hot-reload for
+# local development.
+# =============================================================================
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-delphi}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-delphi_dev_password_change_me}
+      POSTGRES_DB: ${POSTGRES_DB:-delphi}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-delphi} -d ${POSTGRES_DB:-delphi}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      # Inside the compose network, datastores are reached by service name.
+      DELPHI_DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-delphi}:${POSTGRES_PASSWORD:-delphi_dev_password_change_me}@postgres:5432/${POSTGRES_DB:-delphi}
+      DELPHI_REDIS_URL: redis://redis:6379/0
+      DELPHI_ENVIRONMENT: ${DELPHI_ENVIRONMENT:-development}
+      DELPHI_DEBUG: ${DELPHI_DEBUG:-true}
+      DELPHI_LOG_FORMAT: ${DELPHI_LOG_FORMAT:-console}
+      DELPHI_CORS_ORIGINS: ${DELPHI_CORS_ORIGINS:-http://localhost:3000,http://localhost:5173}
+      DELPHI_STORAGE_BASE_PATH: /app/data/storage
+    ports:
+      - "${DELPHI_PORT:-8000}:8000"
+    volumes:
+      - dataset_storage:/app/data/storage
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/health').status==200 else 1)"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8000}
+        VITE_APP_NAME: ${VITE_APP_NAME:-Delphi}
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  redis_data:
+  dataset_storage:

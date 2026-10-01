@@ -1,0 +1,30 @@
+# =============================================================================
+# Development overrides (auto-loaded by `docker compose up`).
+#
+# Enables backend hot-reload by mounting the source tree and running uvicorn
+# with --reload. This file is intentionally NOT used in production deployments,
+# where the immutable image built by docker-compose.yml is deployed as-is.
+#
+# For frontend hot-reload during development, run the Vite dev server locally
+# (`make dev-frontend`); the compose `frontend` service serves the built SPA.
+# =============================================================================
+
+services:
+  backend:
+    environment:
+      DELPHI_LOG_FORMAT: console
+    volumes:
+      # Live-mount source so code changes trigger uvicorn reload.
+      - ./backend/app:/app/app:ro
+      - ./backend/migrations:/app/migrations:ro
+    command:
+      [
+        "uvicorn",
+        "app.main:create_app",
+        "--factory",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8000",
+        "--reload",
+      ]
