@@ -1,0 +1,61 @@
+# ---------------------------------------------------------------------------
+# Decision Intelligence Platform — root .gitignore
+# Language/tool-specific ignores also live in backend/ and frontend/.
+# ---------------------------------------------------------------------------
+
+# Secrets & local environment
+.env
+.env.*
+!.env.example
+*.local
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor / IDE
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.shared.json
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# ---------------------------------------------------------------------------
+# Python (backend)
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# ---------------------------------------------------------------------------
+# Node (frontend)
+# ---------------------------------------------------------------------------
+node_modules/
+.npm/
+.eslintcache
+frontend/dist/
+frontend/coverage/
+*.tsbuildinfo
+
+# ---------------------------------------------------------------------------
+# Docker / infra
+# ---------------------------------------------------------------------------
+.docker/
