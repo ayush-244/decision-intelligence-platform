@@ -1,0 +1,194 @@
+# =============================================================================
+# Delphi Backend — project metadata, dependencies, and tool configuration.
+#
+# Single source of truth (PEP 621). Managed with `uv`:
+#   uv sync --all-extras     # install runtime + dev + analytics
+#   uv run <cmd>             # run inside the managed virtualenv
+#
+# Dependency groups are deliberately separated so production images stay lean:
+#   [project.dependencies]        -> always required at runtime
+#   [optional] analytics          -> heavy scientific stack, added in Phase 2+
+#   [dependency-groups] dev       -> tooling, never shipped to production
+# =============================================================================
+
+[project]
+name = "decision-intelligence-backend"
+version = "0.1.0"
+description = "AI-Powered Decision Intelligence Platform (backend)"
+readme = "README.md"
+requires-python = ">=3.13"
+license = { text = "MIT" }
+authors = [{ name = "Ayush Kumar" }]
+
+dependencies = [
+    # --- Web framework & server ---------------------------------------------
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.34.0",
+    # --- Configuration & validation -----------------------------------------
+    "pydantic>=2.9.0",
+    "pydantic-settings>=2.5.0",
+    # --- Persistence ---------------------------------------------------------
+    "sqlalchemy[asyncio]>=2.0.36",
+    "asyncpg>=0.30.0",
+    "alembic>=1.14.0",
+    # --- Cache / key-value ---------------------------------------------------
+    "redis>=5.2.0",
+    # --- Observability -------------------------------------------------------
+    "structlog>=24.4.0",
+    # --- Authentication & security (Phase 2) ---------------------------------
+    "argon2-cffi>=23.1.0",
+    "pyjwt>=2.10.0",
+    "email-validator>=2.2.0",
+    "slowapi>=0.1.9",
+    # --- Dataset ingestion (Phase 3) -------------------------------------------
+    "polars>=1.12.0",
+    "fastexcel>=0.14.0",
+    "python-multipart>=0.0.20",
+    # --- Statistical analysis (Phase 5) ----------------------------------------
+    "numpy>=2.1.0",
+    "scipy>=1.14.0",
+    "statsmodels>=0.14.0",
+    # --- Causal inference (Phase 6) --------------------------------------------
+    "networkx>=3.4.0",
+    # --- AI Copilot (Phase 13) -------------------------------------------------
+    "httpx>=0.28.0",
+]
+
+[project.optional-dependencies]
+# Scientific/analytics stack. Declared now for a stable contract, but NOT part
+# of the base runtime image until the analytics engine lands in a later phase.
+analytics = [
+    "polars>=1.12.0",
+    "duckdb>=1.1.0",
+    "numpy>=2.1.0",
+    "scipy>=1.14.0",
+    "statsmodels>=0.14.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "pytest-cov>=6.0.0",
+    "httpx>=0.28.0",
+    "ruff>=0.12.0",
+    "black>=25.1.0",
+    "mypy>=1.16.0",
+    "pre-commit>=4.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+# =============================================================================
+# Ruff — linting + import sorting (fast). Formatting is delegated to Black.
+# =============================================================================
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+src = ["app", "tests"]
+extend-exclude = ["migrations/versions"]
+
+[tool.ruff.lint]
+# Curated, production-grade rule set. Explicit over "select all" so upgrades
+# are intentional rather than surprising.
+select = [
+    "E", "W",    # pycodestyle
+    "F",         # pyflakes
+    "I",         # isort (import ordering)
+    "N",         # pep8-naming
+    "UP",        # pyupgrade
+    "B",         # flake8-bugbear
+    "C4",        # flake8-comprehensions
+    "SIM",       # flake8-simplify
+    "TID",       # flake8-tidy-imports
+    "PL",        # pylint
+    "RUF",       # ruff-specific
+    "ASYNC",     # async pitfalls
+    "S",         # bandit security checks
+]
+ignore = [
+    "E501",      # line length handled by Black
+    "PLR0913",   # allow richer constructor signatures for DI
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests may use assert and hardcoded values freely.
+"tests/**/*.py" = ["S101", "PLR2004"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+combine-as-imports = true
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+# =============================================================================
+# Black — the single, non-negotiable code formatter.
+# =============================================================================
+[tool.black]
+line-length = 100
+target-version = ["py313"]
+
+# =============================================================================
+# MyPy — strict static typing. The type hints must be load-bearing.
+# =============================================================================
+[tool.mypy]
+python_version = "3.13"
+strict = true
+warn_unreachable = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+disallow_any_generics = true
+no_implicit_optional = true
+show_error_codes = true
+plugins = ["pydantic.mypy"]
+exclude = ["migrations/", "tests/"]
+
+[[tool.mypy.overrides]]
+# Third-party packages without bundled type stubs.
+module = ["asyncpg.*", "polars.*", "networkx.*"]
+ignore_missing_imports = true
+
+# =============================================================================
+# Pytest — test discovery, async mode, coverage.
+# =============================================================================
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "-ra",
+    "--cov=app",
+    "--cov-report=term-missing",
+    "--cov-report=xml",
+]
+markers = [
+    "unit: fast, isolated tests with no external I/O",
+    "integration: tests exercising the ASGI app / external boundaries",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["app"]
+omit = ["app/main.py", "*/__init__.py"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+    "@(abc\\.)?abstractmethod",
+]
