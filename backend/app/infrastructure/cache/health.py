@@ -1,0 +1,53 @@
+"""Redis health probe.
+
+Issues a ``PING`` and measures latency. Implements the domain
+:class:`HealthProbe` port.
+"""
+
+from __future__ import annotations
+
+import time
+
+from redis.asyncio import Redis
+
+from app.core.constants import HEALTH_PROBE_FAILURE_DETAIL
+from app.core.logging import get_logger
+from app.domain.entities.health import ComponentHealth, HealthStatus
+from app.domain.ports.health_probe import HealthProbe
+
+_logger = get_logger(__name__)
+_COMPONENT_NAME = "redis"
+
+
+class RedisHealthProbe(HealthProbe):
+    """Checks Redis connectivity via ``PING``."""
+
+    def __init__(self, client: Redis) -> None:
+        self._client = client
+
+    @property
+    def component_name(self) -> str:
+        return _COMPONENT_NAME
+
+    async def check(self) -> ComponentHealth:
+        start = time.perf_counter()
+        try:
+            await self._client.ping()
+        except Exception as exc:  # report failures, never raise from a probe
+            _logger.warning(
+                "health_probe_failed",
+                component=self.component_name,
+                error=str(exc),
+                error_type=type(exc).__name__,
+            )
+            return ComponentHealth(
+                name=self.component_name,
+                status=HealthStatus.UNHEALTHY,
+                detail=HEALTH_PROBE_FAILURE_DETAIL,
+            )
+        latency_ms = (time.perf_counter() - start) * 1000
+        return ComponentHealth(
+            name=self.component_name,
+            status=HealthStatus.HEALTHY,
+            latency_ms=round(latency_ms, 2),
+        )
