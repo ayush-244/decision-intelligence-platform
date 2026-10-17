@@ -51,7 +51,7 @@ function DashboardPanel({ datasetId }: { datasetId: string }) {
   const { data, isLoading } = useExecutiveDashboardQuery(datasetId);
   if (isLoading || !data) {
     return (
-      <div className="flex items-center gap-2 text-muted-foreground">
+      <div className="text-muted-foreground flex items-center gap-2">
         <Loader2 className="size-4 animate-spin" />
         Loading executive dashboard…
       </div>
@@ -68,7 +68,7 @@ function DashboardPanel({ datasetId }: { datasetId: string }) {
             <HealthBadge score={data.business_health_score} />
           </CardTitle>
         </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">
+        <CardContent className="text-muted-foreground text-sm">
           Composite of decision completion and recommendation confidence.
         </CardContent>
       </Card>
@@ -77,7 +77,7 @@ function DashboardPanel({ datasetId }: { datasetId: string }) {
           <CardDescription>Decision pipeline</CardDescription>
           <CardTitle className="text-2xl">{data.decision_pipeline.completed}</CardTitle>
         </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">
+        <CardContent className="text-muted-foreground text-sm">
           {data.decision_pipeline.completed} completed · {data.decision_pipeline.total} total
         </CardContent>
       </Card>
@@ -88,7 +88,7 @@ function DashboardPanel({ datasetId }: { datasetId: string }) {
             {((data.roi_overview.average ?? 0) * 100).toFixed(0)}%
           </CardTitle>
         </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">
+        <CardContent className="text-muted-foreground text-sm">
           Peak {((data.roi_overview.max ?? 0) * 100).toFixed(0)}% across scenarios
         </CardContent>
       </Card>
@@ -97,7 +97,7 @@ function DashboardPanel({ datasetId }: { datasetId: string }) {
           <CardDescription>Reports generated</CardDescription>
           <CardTitle className="text-2xl">{data.historical_reports}</CardTitle>
         </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">
+        <CardContent className="text-muted-foreground text-sm">
           Versioned executive intelligence artifacts
         </CardContent>
       </Card>
@@ -107,26 +107,26 @@ function DashboardPanel({ datasetId }: { datasetId: string }) {
 
 function TimelinePanel({ items }: { items: TimelineItem[] }) {
   if (items.length === 0) {
-    return <p className="text-sm text-muted-foreground">No implementation roadmap yet.</p>;
+    return <p className="text-muted-foreground text-sm">No implementation roadmap yet.</p>;
   }
   return (
     <div className="space-y-4">
       {items.map((item) => (
-        <div key={item.priority} className="relative border-l-2 border-primary/30 pl-6">
-          <div className="absolute -left-2 top-1 size-3 rounded-full bg-primary" />
+        <div key={item.priority} className="border-primary/30 relative border-l-2 pl-6">
+          <div className="bg-primary absolute top-1 -left-2 size-3 rounded-full" />
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h4 className="font-medium">
               P{item.priority}: {item.title}
             </h4>
-            <span className="text-xs text-muted-foreground">{item.timeline}</span>
+            <span className="text-muted-foreground text-xs">{item.timeline}</span>
           </div>
-          <p className="mt-1 text-sm text-muted-foreground">{item.impact}</p>
+          <p className="text-muted-foreground mt-1 text-sm">{item.impact}</p>
           <div className="mt-2 flex flex-wrap gap-2 text-xs">
-            <span className="rounded bg-muted px-2 py-0.5">Effort: {item.effort}</span>
-            <span className="rounded bg-muted px-2 py-0.5">Risk: {item.risk_level}</span>
-            <span className="rounded bg-muted px-2 py-0.5">Owner: {item.business_owner}</span>
+            <span className="bg-muted rounded px-2 py-0.5">Effort: {item.effort}</span>
+            <span className="bg-muted rounded px-2 py-0.5">Risk: {item.risk_level}</span>
+            <span className="bg-muted rounded px-2 py-0.5">Owner: {item.business_owner}</span>
           </div>
-          <ul className="mt-2 list-inside list-disc text-xs text-muted-foreground">
+          <ul className="text-muted-foreground mt-2 list-inside list-disc text-xs">
             {item.milestones.map((m) => (
               <li key={m}>{m}</li>
             ))}
@@ -143,10 +143,10 @@ function ReportViewer({ report }: { report: ExecutiveReport }) {
 
   return (
     <div className="space-y-6">
-      <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+      <Card className="border-primary/20 from-primary/5 bg-gradient-to-br to-transparent">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Sparkles className="size-5 text-primary" />
+            <Sparkles className="text-primary size-5" />
             Executive summary
           </CardTitle>
         </CardHeader>
@@ -198,7 +198,9 @@ function ReportViewer({ report }: { report: ExecutiveReport }) {
           <CardTitle>Decision narrative</CardTitle>
           <CardDescription>What happened, why, and what to do next</CardDescription>
         </CardHeader>
-        <CardContent className="whitespace-pre-wrap text-sm leading-relaxed">{result.narrative}</CardContent>
+        <CardContent className="text-sm leading-relaxed whitespace-pre-wrap">
+          {result.narrative}
+        </CardContent>
       </Card>
 
       {(result.explainability ?? []).map((block) => (
@@ -211,7 +213,7 @@ function ReportViewer({ report }: { report: ExecutiveReport }) {
             <p>{block.business_interpretation}</p>
             <details className="rounded border p-3">
               <summary className="cursor-pointer font-medium">Evidence chain</summary>
-              <div className="mt-3 space-y-2 text-muted-foreground">
+              <div className="text-muted-foreground mt-3 space-y-2">
                 {block.evidence.statistical && <p>Statistical: {block.evidence.statistical}</p>}
                 <p>Causal: {block.evidence.causal}</p>
                 <p>Simulation: {block.evidence.simulation}</p>
@@ -220,7 +222,7 @@ function ReportViewer({ report }: { report: ExecutiveReport }) {
             </details>
             <div>
               <p className="font-medium">Alternatives</p>
-              <ul className="list-inside list-disc text-muted-foreground">
+              <ul className="text-muted-foreground list-inside list-disc">
                 {block.alternative_actions.map((a) => (
                   <li key={a}>{a}</li>
                 ))}
@@ -276,7 +278,9 @@ export function DatasetExecutivePage() {
   const projectId = searchParams.get('project_id') ?? '';
   const [selectedReportId, setSelectedReportId] = useState<string | undefined>();
   const [reportName, setReportName] = useState('Executive Intelligence Brief');
-  const [objective, setObjective] = useState('Drive measurable business outcomes from causal evidence');
+  const [objective, setObjective] = useState(
+    'Drive measurable business outcomes from causal evidence',
+  );
   const [decisionRunId, setDecisionRunId] = useState('');
   const [activePanel, setActivePanel] = useState<'generate' | 'history' | 'viewer'>('generate');
 
@@ -344,89 +348,95 @@ export function DatasetExecutivePage() {
 
       {activePanel === 'generate' && (
         <Card>
-            <CardHeader>
-              <CardTitle>Create executive report</CardTitle>
-              <CardDescription>
-                Select a completed decision analysis to transform into leadership-ready intelligence.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Report name</label>
-                <Input value={reportName} onChange={(e) => setReportName(e.target.value)} />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Decision analysis</label>
-                <select
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-                  value={decisionRunId}
-                  onChange={(e) => setDecisionRunId(e.target.value)}
-                >
-                  <option value="">Select completed decision…</option>
-                  {completedDecisions.map((d) => (
-                    <option key={d.id} value={d.id}>
-                      {d.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="space-y-2 sm:col-span-2">
-                <label className="text-sm font-medium">Business objective</label>
-                <Input value={objective} onChange={(e) => setObjective(e.target.value)} />
-              </div>
-              <Button
-                className="sm:col-span-2"
-                disabled={!decisionRunId || generate.isPending}
-                onClick={() => void handleGenerate()}
+          <CardHeader>
+            <CardTitle>Create executive report</CardTitle>
+            <CardDescription>
+              Select a completed decision analysis to transform into leadership-ready intelligence.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Report name</label>
+              <Input value={reportName} onChange={(e) => setReportName(e.target.value)} />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Decision analysis</label>
+              <select
+                className="border-input bg-background flex h-10 w-full rounded-md border px-3 text-sm"
+                value={decisionRunId}
+                onChange={(e) => setDecisionRunId(e.target.value)}
               >
-                {generate.isPending ? (
-                  <Loader2 className="mr-2 size-4 animate-spin" />
-                ) : (
-                  <Sparkles className="mr-2 size-4" />
-                )}
-                Generate executive report
-              </Button>
-            </CardContent>
-          </Card>
+                <option value="">Select completed decision…</option>
+                {completedDecisions.map((d) => (
+                  <option key={d.id} value={d.id}>
+                    {d.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="space-y-2 sm:col-span-2">
+              <label className="text-sm font-medium">Business objective</label>
+              <Input value={objective} onChange={(e) => setObjective(e.target.value)} />
+            </div>
+            <Button
+              className="sm:col-span-2"
+              disabled={!decisionRunId || generate.isPending}
+              onClick={() => void handleGenerate()}
+            >
+              {generate.isPending ? (
+                <Loader2 className="mr-2 size-4 animate-spin" />
+              ) : (
+                <Sparkles className="mr-2 size-4" />
+              )}
+              Generate executive report
+            </Button>
+          </CardContent>
+        </Card>
       )}
 
       {activePanel === 'history' && (
         <Card>
-            <CardHeader>
-              <CardTitle>Report history</CardTitle>
-              <CardDescription>Versioned executive artifacts linked to decision analyses</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              {(history.data ?? []).length === 0 && (
-                <p className="text-sm text-muted-foreground">No reports yet. Generate your first brief.</p>
-              )}
-              {(history.data ?? []).map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  className="flex w-full items-center justify-between rounded-lg border p-3 text-left hover:bg-muted/50"
-                  onClick={() => {
-                    setSelectedReportId(item.id);
-                    setActivePanel('viewer');
-                  }}
-                >
-                  <div>
-                    <p className="font-medium">{item.name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      v{item.version_number} · {new Date(item.created_at).toLocaleString()}
-                    </p>
-                  </div>
-                  <span className="rounded-full bg-muted px-2 py-0.5 text-xs capitalize">{item.status}</span>
-                </button>
-              ))}
-            </CardContent>
-          </Card>
+          <CardHeader>
+            <CardTitle>Report history</CardTitle>
+            <CardDescription>
+              Versioned executive artifacts linked to decision analyses
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {(history.data ?? []).length === 0 && (
+              <p className="text-muted-foreground text-sm">
+                No reports yet. Generate your first brief.
+              </p>
+            )}
+            {(history.data ?? []).map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className="hover:bg-muted/50 flex w-full items-center justify-between rounded-lg border p-3 text-left"
+                onClick={() => {
+                  setSelectedReportId(item.id);
+                  setActivePanel('viewer');
+                }}
+              >
+                <div>
+                  <p className="font-medium">{item.name}</p>
+                  <p className="text-muted-foreground text-xs">
+                    v{item.version_number} · {new Date(item.created_at).toLocaleString()}
+                  </p>
+                </div>
+                <span className="bg-muted rounded-full px-2 py-0.5 text-xs capitalize">
+                  {item.status}
+                </span>
+              </button>
+            ))}
+          </CardContent>
+        </Card>
       )}
 
       {activePanel === 'viewer' && (
         <>
           {report.isLoading && (
-            <div className="flex items-center gap-2 text-muted-foreground">
+            <div className="text-muted-foreground flex items-center gap-2">
               <Loader2 className="size-4 animate-spin" />
               Loading report…
             </div>

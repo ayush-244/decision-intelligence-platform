@@ -4,14 +4,7 @@ export type DataSourceFormat = 'csv' | 'xlsx' | 'parquet';
 export type ValidationStatus = 'pending' | 'passed' | 'failed' | 'warning';
 export type UploadJobStatus = 'pending' | 'validating' | 'processing' | 'completed' | 'failed';
 export type ColumnSemanticType =
-  | 'integer'
-  | 'float'
-  | 'boolean'
-  | 'categorical'
-  | 'datetime'
-  | 'text'
-  | 'identifier'
-  | 'ordinal';
+  'integer' | 'float' | 'boolean' | 'categorical' | 'datetime' | 'text' | 'identifier' | 'ordinal';
 
 export interface ColumnMetadata {
   name: string;

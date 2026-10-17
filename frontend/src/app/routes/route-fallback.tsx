@@ -25,7 +25,9 @@ export function AppRouteFallback() {
             />
           </svg>
         </div>
-        <p className="text-muted-foreground text-xs font-medium tracking-wide">Loading workspace…</p>
+        <p className="text-muted-foreground text-xs font-medium tracking-wide">
+          Loading workspace…
+        </p>
       </div>
     </div>
   );

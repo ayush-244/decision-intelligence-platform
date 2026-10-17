@@ -52,7 +52,8 @@ async function parseError(response: Response, requestId: string): Promise<ApiErr
   try {
     const body = (await response.json()) as BackendErrorEnvelope;
     code = body.error?.code;
-    requestIdFromServer = body.error?.request_id ?? response.headers.get(REQUEST_ID_HEADER) ?? undefined;
+    requestIdFromServer =
+      body.error?.request_id ?? response.headers.get(REQUEST_ID_HEADER) ?? undefined;
     message = body.error?.message ?? message;
   } catch {
     requestIdFromServer = response.headers.get(REQUEST_ID_HEADER) ?? undefined;

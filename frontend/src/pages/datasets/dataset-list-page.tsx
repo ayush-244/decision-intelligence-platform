@@ -61,7 +61,9 @@ export function DatasetListPage() {
         <Card>
           <CardContent className="flex flex-col items-center gap-3 py-12">
             <Database className="text-muted-foreground size-10" />
-            <p className="text-muted-foreground text-sm">No datasets yet. Upload your first file.</p>
+            <p className="text-muted-foreground text-sm">
+              No datasets yet. Upload your first file.
+            </p>
             <Button asChild size="sm">
               <Link to={`/app/datasets/upload?project_id=${projectId}`}>
                 <Plus className="size-4" />
@@ -85,7 +87,7 @@ export function DatasetListPage() {
             </thead>
             <tbody>
               {filtered.map((dataset) => (
-                <tr key={dataset.id} className="border-t hover:bg-muted/30">
+                <tr key={dataset.id} className="hover:bg-muted/30 border-t">
                   <td className="px-4 py-3">
                     <Link
                       className="font-medium hover:underline"

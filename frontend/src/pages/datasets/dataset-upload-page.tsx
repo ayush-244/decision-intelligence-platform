@@ -21,12 +21,15 @@ export function DatasetUploadPage() {
   const [dragOver, setDragOver] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const handleFile = useCallback((file: File | null) => {
-    setSelectedFile(file);
-    if (file && !name) {
-      setName(file.name.replace(/\.[^.]+$/, ''));
-    }
-  }, [name]);
+  const handleFile = useCallback(
+    (file: File | null) => {
+      setSelectedFile(file);
+      if (file && !name) {
+        setName(file.name.replace(/\.[^.]+$/, ''));
+      }
+    },
+    [name],
+  );
 
   async function handleUpload() {
     if (!projectId || !selectedFile) {
@@ -121,7 +124,9 @@ export function DatasetUploadPage() {
 
           <Button
             disabled={!selectedFile || upload.isPending}
-            onClick={() => { void handleUpload(); }}
+            onClick={() => {
+              void handleUpload();
+            }}
           >
             {upload.isPending ? 'Uploading…' : 'Upload and validate'}
           </Button>

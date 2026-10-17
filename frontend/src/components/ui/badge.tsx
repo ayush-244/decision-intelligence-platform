@@ -15,8 +15,7 @@ const badgeVariants = cva(
       variant: {
         default: 'border-border bg-muted text-muted-foreground',
         signal: 'border-primary/20 bg-primary/10 text-primary',
-        success:
-          'border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
+        success: 'border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
         info: 'border-sky-500/20 bg-sky-500/10 text-sky-600 dark:text-sky-400',
         warning: 'border-amber-500/25 bg-amber-500/10 text-amber-600 dark:text-amber-400',
         destructive: 'border-red-500/20 bg-red-500/10 text-red-600 dark:text-red-400',
@@ -32,7 +31,9 @@ function Badge({
   variant,
   ...props
 }: React.ComponentProps<'span'> & VariantProps<typeof badgeVariants>) {
-  return <span data-slot="badge" className={cn(badgeVariants({ variant, className }))} {...props} />;
+  return (
+    <span data-slot="badge" className={cn(badgeVariants({ variant, className }))} {...props} />
+  );
 }
 
 export { Badge, badgeVariants };

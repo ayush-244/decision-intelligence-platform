@@ -117,7 +117,8 @@ export function DecisionWorkspacePage() {
 
   const progress = session.data?.progress;
   const canvasNodes = useMemo(
-    () => session.data?.workspace_state?.canvas?.nodes ?? buildCanvasNodes(datasetId ?? '', projectId),
+    () =>
+      session.data?.workspace_state?.canvas?.nodes ?? buildCanvasNodes(datasetId ?? '', projectId),
     [session.data, datasetId, projectId],
   );
 
@@ -148,7 +149,7 @@ export function DecisionWorkspacePage() {
     <div className="flex min-h-[calc(100dvh-8rem)] flex-col gap-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <Button asChild variant="ghost" size="sm" className="-ml-2 mb-1">
+          <Button asChild variant="ghost" size="sm" className="mb-1 -ml-2">
             <Link to={`/app/datasets/${datasetId}?project_id=${projectId}`}>
               <ArrowLeft className="mr-1 size-4" />
               {dataset.data?.name ?? 'Dataset'}
@@ -160,10 +161,20 @@ export function DecisionWorkspacePage() {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button variant="outline" size="icon" onClick={() => setShowSidebar((v) => !v)} aria-label="Toggle sidebar">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setShowSidebar((v) => !v)}
+            aria-label="Toggle sidebar"
+          >
             <PanelLeft className="size-4" />
           </Button>
-          <Button variant="outline" size="icon" onClick={() => setShowTimeline((v) => !v)} aria-label="Toggle timeline">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setShowTimeline((v) => !v)}
+            aria-label="Toggle timeline"
+          >
             <PanelRight className="size-4" />
           </Button>
           {sessionId && (
@@ -226,7 +237,11 @@ export function DecisionWorkspacePage() {
                     placeholder="Session name"
                     className="h-8 text-xs"
                   />
-                  <Button size="sm" disabled={createSession.isPending} onClick={() => void handleCreateSession()}>
+                  <Button
+                    size="sm"
+                    disabled={createSession.isPending}
+                    onClick={() => void handleCreateSession()}
+                  >
                     New
                   </Button>
                 </div>
@@ -263,7 +278,7 @@ export function DecisionWorkspacePage() {
                     key={node.id}
                     type="button"
                     onClick={() => void handleOpenNode(node.id, node.href)}
-                    className="hover:border-primary/40 group rounded-lg border p-4 text-left transition-colors hover:bg-muted/30"
+                    className="hover:border-primary/40 group hover:bg-muted/30 rounded-lg border p-4 text-left transition-colors"
                   >
                     <div className="flex items-center justify-between">
                       <span className="font-medium">{node.title}</span>
@@ -342,7 +357,9 @@ export function DecisionWorkspacePage() {
               </CardHeader>
               <CardContent className="max-h-[420px] space-y-3 overflow-y-auto">
                 {!sessionId && (
-                  <p className="text-muted-foreground text-sm">Create or select a session to view activity.</p>
+                  <p className="text-muted-foreground text-sm">
+                    Create or select a session to view activity.
+                  </p>
                 )}
                 {timeline.isLoading && (
                   <div className="text-muted-foreground flex items-center gap-2 text-sm">
@@ -351,7 +368,7 @@ export function DecisionWorkspacePage() {
                   </div>
                 )}
                 {(timeline.data ?? []).map((event) => (
-                  <div key={event.id} className="border-l-2 border-primary/30 pl-3">
+                  <div key={event.id} className="border-primary/30 border-l-2 pl-3">
                     <p className="text-sm font-medium">{event.title}</p>
                     {event.description && (
                       <p className="text-muted-foreground text-xs">{event.description}</p>

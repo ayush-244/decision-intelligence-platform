@@ -1,5 +1,10 @@
 import { getAccessToken, getActiveOrganizationId } from '@/features/auth/session';
-import type { Dataset, DatasetPreview, DatasetVersion, UploadResult } from '@/features/datasets/types';
+import type {
+  Dataset,
+  DatasetPreview,
+  DatasetVersion,
+  UploadResult,
+} from '@/features/datasets/types';
 import { apiFetch, apiFetchData } from '@/services/api/client';
 import { env } from '@/config/env';
 
@@ -46,7 +51,10 @@ export function fetchDatasetVersions(datasetId: string): Promise<DatasetVersion[
   });
 }
 
-export function fetchDatasetPreview(datasetId: string, versionId?: string): Promise<DatasetPreview> {
+export function fetchDatasetPreview(
+  datasetId: string,
+  versionId?: string,
+): Promise<DatasetPreview> {
   const query = versionId ? `?version_id=${versionId}` : '';
   return apiFetchData<DatasetPreview>(`/api/v1/datasets/${datasetId}/preview${query}`, {
     headers: orgHeaders(),

@@ -27,11 +27,10 @@ const TABS = [
 type TabId = (typeof TABS)[number]['id'];
 
 function ScoreBadge({ label, score }: { label: string; score: number }) {
-  const color =
-    score >= 80 ? 'text-emerald-400' : score >= 60 ? 'text-amber-400' : 'text-red-400';
+  const color = score >= 80 ? 'text-emerald-400' : score >= 60 ? 'text-amber-400' : 'text-red-400';
   return (
     <div className="bg-muted/50 rounded-lg p-4 text-center">
-      <p className="text-muted-foreground text-xs uppercase tracking-wide">{label}</p>
+      <p className="text-muted-foreground text-xs tracking-wide uppercase">{label}</p>
       <p className={cn('text-3xl font-semibold tabular-nums', color)}>{score.toFixed(0)}</p>
     </div>
   );
@@ -63,9 +62,7 @@ function CorrelationHeatmap({ report }: { report: IntelligenceReport }) {
       series: [
         {
           type: 'heatmap',
-          data: values.flatMap((row, i) =>
-            row.map((val, j) => [j, i, val ?? 0]),
-          ),
+          data: values.flatMap((row, i) => row.map((val, j) => [j, i, val ?? 0])),
           label: { show: columns.length <= 8 },
         },
       ],
@@ -74,7 +71,9 @@ function CorrelationHeatmap({ report }: { report: IntelligenceReport }) {
   );
 
   if (columns.length < 2) {
-    return <p className="text-muted-foreground text-sm">Not enough numeric columns for a heatmap.</p>;
+    return (
+      <p className="text-muted-foreground text-sm">Not enough numeric columns for a heatmap.</p>
+    );
   }
 
   return <ReactECharts option={option} theme="delphi" style={{ height: 360 }} />;
@@ -94,7 +93,9 @@ function DistributionChart({ dist }: { dist: Record<string, unknown> }) {
 
   const option = useMemo(() => {
     if (!histogram?.bins?.length) return {};
-    const labels = histogram.bins.slice(0, -1).map((b, i) => `${b.toFixed(1)}–${histogram.bins[i + 1]?.toFixed(1)}`);
+    const labels = histogram.bins
+      .slice(0, -1)
+      .map((b, i) => `${b.toFixed(1)}–${histogram.bins[i + 1]?.toFixed(1)}`);
     return {
       title: { text: column, left: 'center', textStyle: { fontSize: 13 } },
       tooltip: { trigger: 'axis' },
@@ -127,7 +128,7 @@ function ColumnTable({ columns, filter }: { columns: ColumnIntelligence[]; filte
         </thead>
         <tbody>
           {rows.map((col) => (
-            <tr key={col.name} className="border-b hover:bg-muted/30">
+            <tr key={col.name} className="hover:bg-muted/30 border-b">
               <td className="px-2 py-2 font-medium">{col.name}</td>
               <td className="px-2 py-2">{col.semantic_type}</td>
               <td className="px-2 py-2">{col.suggested_role}</td>
@@ -167,7 +168,8 @@ export function DatasetIntelligencePage() {
             <h1 className="text-display text-2xl sm:text-[1.75rem]">Data Intelligence</h1>
           </div>
           <p className="text-muted-foreground mt-1 text-sm">
-            Automated data understanding — quality, structure, relationships, and analytical readiness.
+            Automated data understanding — quality, structure, relationships, and analytical
+            readiness.
           </p>
         </div>
         <div className="flex gap-2">
@@ -205,8 +207,8 @@ export function DatasetIntelligencePage() {
           <CardHeader>
             <CardTitle className="text-base">No intelligence report yet</CardTitle>
             <CardDescription>
-              Run analysis to generate quality scores, column intelligence, correlations, and readiness
-              assessment for this dataset version.
+              Run analysis to generate quality scores, column intelligence, correlations, and
+              readiness assessment for this dataset version.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -221,11 +223,12 @@ export function DatasetIntelligencePage() {
               score={report.data.data_health.overall_score ?? report.data.health_score ?? 0}
             />
             <div className="bg-muted/50 rounded-lg p-4 text-center">
-              <p className="text-muted-foreground text-xs uppercase tracking-wide">Rows sampled</p>
+              <p className="text-muted-foreground text-xs tracking-wide uppercase">Rows sampled</p>
               <p className="text-3xl font-semibold tabular-nums">
                 {report.data.rows_sampled.toLocaleString()}
                 <span className="text-muted-foreground text-base font-normal">
-                  {' '}/ {report.data.total_rows.toLocaleString()}
+                  {' '}
+                  / {report.data.total_rows.toLocaleString()}
                 </span>
               </p>
             </div>
@@ -254,9 +257,10 @@ export function DatasetIntelligencePage() {
               <CardHeader>
                 <CardTitle className="text-base">Overview</CardTitle>
                 <CardDescription>
-                  Trust level: <span className="capitalize">{report.data.overview.trust_level}</span>
-                  {' · '}
-                  v{report.data.overview.version_number} · {report.data.overview.row_count.toLocaleString()} rows
+                  Trust level:{' '}
+                  <span className="capitalize">{report.data.overview.trust_level}</span>
+                  {' · '}v{report.data.overview.version_number} ·{' '}
+                  {report.data.overview.row_count.toLocaleString()} rows
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -337,16 +341,21 @@ export function DatasetIntelligencePage() {
                 <CardTitle className="text-base">Missing Data</CardTitle>
                 <CardDescription>
                   Overall missing:{' '}
-                  {String((report.data.missing_data as { overall_missing_percentage?: number }).overall_missing_percentage ?? 0)}%
+                  {String(
+                    (report.data.missing_data as { overall_missing_percentage?: number })
+                      .overall_missing_percentage ?? 0,
+                  )}
+                  %
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="text-muted-foreground list-disc space-y-1 pl-5 text-sm">
-                  {((report.data.missing_data as { imputation_hints?: string[] }).imputation_hints ?? []).map(
-                    (hint) => (
-                      <li key={hint}>{hint}</li>
-                    ),
-                  )}
+                  {(
+                    (report.data.missing_data as { imputation_hints?: string[] })
+                      .imputation_hints ?? []
+                  ).map((hint) => (
+                    <li key={hint}>{hint}</li>
+                  ))}
                 </ul>
               </CardContent>
             </Card>
@@ -371,15 +380,23 @@ export function DatasetIntelligencePage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {((report.data.outliers as { columns?: { column: string; outlier_count: number; outlier_percentage: number }[] }).columns ?? []).map(
-                        (row) => (
-                          <tr key={row.column} className="border-b">
-                            <td className="px-2 py-2">{row.column}</td>
-                            <td className="px-2 py-2">{row.outlier_count}</td>
-                            <td className="px-2 py-2">{row.outlier_percentage}%</td>
-                          </tr>
-                        ),
-                      )}
+                      {(
+                        (
+                          report.data.outliers as {
+                            columns?: {
+                              column: string;
+                              outlier_count: number;
+                              outlier_percentage: number;
+                            }[];
+                          }
+                        ).columns ?? []
+                      ).map((row) => (
+                        <tr key={row.column} className="border-b">
+                          <td className="px-2 py-2">{row.column}</td>
+                          <td className="px-2 py-2">{row.outlier_count}</td>
+                          <td className="px-2 py-2">{row.outlier_percentage}%</td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>
@@ -393,7 +410,9 @@ export function DatasetIntelligencePage() {
                 <Card key={displayText(dist.column)}>
                   <CardContent className="pt-4">
                     <DistributionChart dist={dist} />
-                    <p className="text-muted-foreground mt-2 text-xs">{displayText(dist.interpretation)}</p>
+                    <p className="text-muted-foreground mt-2 text-xs">
+                      {displayText(dist.interpretation)}
+                    </p>
                   </CardContent>
                 </Card>
               ))}

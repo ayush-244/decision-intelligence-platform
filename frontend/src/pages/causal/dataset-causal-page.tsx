@@ -87,7 +87,11 @@ function ResultPanel({ run }: { run: CausalAnalysisRun }) {
           <p className="text-sm">
             ATE: {run.result.treatment_effect.ate?.toFixed(4) ?? '—'}
             {run.result.treatment_effect.ci_lower != null && (
-              <> · CI [{run.result.treatment_effect.ci_lower.toFixed(4)}, {run.result.treatment_effect.ci_upper?.toFixed(4)}]</>
+              <>
+                {' '}
+                · CI [{run.result.treatment_effect.ci_lower.toFixed(4)},{' '}
+                {run.result.treatment_effect.ci_upper?.toFixed(4)}]
+              </>
             )}
           </p>
         </CardContent>
@@ -100,9 +104,7 @@ function ResultPanel({ run }: { run: CausalAnalysisRun }) {
         </CardHeader>
         <CardContent className="text-muted-foreground space-y-2 text-sm">
           <p>{id.reasoning}</p>
-          {id.adjustment_set.length > 0 && (
-            <p>Adjustment set: {id.adjustment_set.join(', ')}</p>
-          )}
+          {id.adjustment_set.length > 0 && <p>Adjustment set: {id.adjustment_set.join(', ')}</p>}
         </CardContent>
       </Card>
 
@@ -112,8 +114,16 @@ function ResultPanel({ run }: { run: CausalAnalysisRun }) {
         </CardHeader>
         <CardContent className="space-y-3 text-sm">
           <p>{interp.business_interpretation}</p>
-          <p className={cn('font-medium', interp.causal_claim_valid ? 'text-emerald-400' : 'text-amber-400')}>
-            Causal claim valid: {interp.causal_claim_valid ? 'Yes (under stated assumptions)' : 'No — review assumptions'}
+          <p
+            className={cn(
+              'font-medium',
+              interp.causal_claim_valid ? 'text-emerald-400' : 'text-amber-400',
+            )}
+          >
+            Causal claim valid:{' '}
+            {interp.causal_claim_valid
+              ? 'Yes (under stated assumptions)'
+              : 'No — review assumptions'}
           </p>
           <div>
             <p className="mb-1 font-medium">Limitations</p>
@@ -170,9 +180,24 @@ export function DatasetCausalPage() {
 
   const initialNodes: Node[] = useMemo(
     () => [
-      { id: 'confounder', position: { x: 80, y: 40 }, data: { label: 'confounder' }, style: nodeStyle('confounder') },
-      { id: 'treatment', position: { x: 40, y: 160 }, data: { label: 'treatment' }, style: nodeStyle('treatment') },
-      { id: 'outcome', position: { x: 220, y: 160 }, data: { label: 'outcome' }, style: nodeStyle('outcome') },
+      {
+        id: 'confounder',
+        position: { x: 80, y: 40 },
+        data: { label: 'confounder' },
+        style: nodeStyle('confounder'),
+      },
+      {
+        id: 'treatment',
+        position: { x: 40, y: 160 },
+        data: { label: 'treatment' },
+        style: nodeStyle('treatment'),
+      },
+      {
+        id: 'outcome',
+        position: { x: 220, y: 160 },
+        data: { label: 'outcome' },
+        style: nodeStyle('outcome'),
+      },
     ],
     [],
   );
@@ -201,9 +226,7 @@ export function DatasetCausalPage() {
       position: n.position,
     }));
     const dagEdges = edges.map((e) => ({ source: e.source, target: e.target }));
-    const roles = Object.fromEntries(
-      dagNodes.map((n) => [n.id, n.role ?? 'unknown']),
-    );
+    const roles = Object.fromEntries(dagNodes.map((n) => [n.id, n.role ?? 'unknown']));
     return { nodes: dagNodes, edges: dagEdges, variable_roles: roles };
   };
 
@@ -259,7 +282,9 @@ export function DatasetCausalPage() {
           </p>
         </div>
         <Link to={`/app/datasets/${datasetId}?project_id=${projectId}`}>
-          <Button variant="outline" size="sm">Back to dataset</Button>
+          <Button variant="outline" size="sm">
+            Back to dataset
+          </Button>
         </Link>
       </div>
 
@@ -311,11 +336,15 @@ export function DatasetCausalPage() {
               <Input value={outcome} onChange={(e) => setOutcome(e.target.value)} />
             </div>
             <div className="sm:col-span-2">
-              <label className="mb-1 block text-sm font-medium">All columns (comma-separated)</label>
+              <label className="mb-1 block text-sm font-medium">
+                All columns (comma-separated)
+              </label>
               <Input value={columnInput} onChange={(e) => setColumnInput(e.target.value)} />
             </div>
             <div className="flex gap-2 sm:col-span-2">
-              <Button variant="outline" onClick={() => setStep(0)}>Back</Button>
+              <Button variant="outline" onClick={() => setStep(0)}>
+                Back
+              </Button>
               <Button onClick={() => setStep(2)}>Build DAG</Button>
             </div>
           </CardContent>
@@ -346,7 +375,9 @@ export function DatasetCausalPage() {
               </ReactFlow>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setStep(1)}>Back</Button>
+              <Button variant="outline" onClick={() => setStep(1)}>
+                Back
+              </Button>
               <Button
                 onClick={() => {
                   void handleSaveDag();
@@ -361,7 +392,11 @@ export function DatasetCausalPage() {
                 }}
                 disabled={runMutation.isPending}
               >
-                {runMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Play className="mr-2 h-4 w-4" />}
+                {runMutation.isPending ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Play className="mr-2 h-4 w-4" />
+                )}
                 Run analysis
               </Button>
             </div>
@@ -380,7 +415,9 @@ export function DatasetCausalPage() {
             <ul className="space-y-2 text-sm">
               {historyQuery.data.map((item) => (
                 <li key={item.id} className="flex justify-between rounded-md border px-3 py-2">
-                  <span>{item.treatment} → {item.outcome}</span>
+                  <span>
+                    {item.treatment} → {item.outcome}
+                  </span>
                   <span className="text-muted-foreground">{item.status}</span>
                 </li>
               ))}

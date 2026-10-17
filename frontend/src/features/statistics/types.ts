@@ -114,13 +114,37 @@ export interface AnalyzeRequest {
 }
 
 export const ANALYSIS_GOALS: { value: AnalysisGoal; label: string; description: string }[] = [
-  { value: 'describe', label: 'Describe data', description: 'Summarize central tendency and spread' },
-  { value: 'compare_groups', label: 'Compare groups', description: 'Test if two or more groups differ' },
-  { value: 'compare_paired', label: 'Compare paired measurements', description: 'Before/after or matched pairs' },
-  { value: 'association', label: 'Find associations', description: 'Relationship between variables' },
+  {
+    value: 'describe',
+    label: 'Describe data',
+    description: 'Summarize central tendency and spread',
+  },
+  {
+    value: 'compare_groups',
+    label: 'Compare groups',
+    description: 'Test if two or more groups differ',
+  },
+  {
+    value: 'compare_paired',
+    label: 'Compare paired measurements',
+    description: 'Before/after or matched pairs',
+  },
+  {
+    value: 'association',
+    label: 'Find associations',
+    description: 'Relationship between variables',
+  },
   { value: 'predict_continuous', label: 'Predict a number', description: 'Linear regression' },
-  { value: 'predict_binary', label: 'Predict a category', description: 'Logistic regression (foundation)' },
-  { value: 'test_change', label: 'Test if a metric changed', description: 'One-sample or group comparison' },
+  {
+    value: 'predict_binary',
+    label: 'Predict a category',
+    description: 'Logistic regression (foundation)',
+  },
+  {
+    value: 'test_change',
+    label: 'Test if a metric changed',
+    description: 'One-sample or group comparison',
+  },
 ];
 
 export const VARIABLE_ROLES: { value: VariableSpec['role']; label: string }[] = [

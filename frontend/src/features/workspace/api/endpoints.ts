@@ -1,6 +1,14 @@
 import { apiFetchData } from '@/services/api/client';
 
-import type { DecisionSession, SearchResult, SessionComparison, SessionHistoryItem, TimelineEvent, WorkflowStep, WorkspaceState } from '@/features/workspace/types';
+import type {
+  DecisionSession,
+  SearchResult,
+  SessionComparison,
+  SessionHistoryItem,
+  TimelineEvent,
+  WorkflowStep,
+  WorkspaceState,
+} from '@/features/workspace/types';
 
 export async function createDecisionSession(body: {
   dataset_id: string;

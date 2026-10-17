@@ -40,8 +40,20 @@ export const APP_NAV_GROUPS: readonly NavGroup[] = [
   {
     label: 'Workspace',
     items: [
-      { label: 'Overview', to: '/app/overview', icon: LayoutDashboard, enabled: true, feature: 'workspace' },
-      { label: 'Datasets', to: '/app/datasets', icon: Database, enabled: true, feature: 'datasets' },
+      {
+        label: 'Overview',
+        to: '/app/overview',
+        icon: LayoutDashboard,
+        enabled: true,
+        feature: 'workspace',
+      },
+      {
+        label: 'Datasets',
+        to: '/app/datasets',
+        icon: Database,
+        enabled: true,
+        feature: 'datasets',
+      },
     ],
   },
   {

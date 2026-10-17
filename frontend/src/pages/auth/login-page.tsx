@@ -27,7 +27,10 @@ export function LoginPage() {
   }
 
   return (
-    <AuthShell title="Welcome back" subtitle="Sign in to your organizations, workspaces, and projects.">
+    <AuthShell
+      title="Welcome back"
+      subtitle="Sign in to your organizations, workspaces, and projects."
+    >
       <form
         className="flex flex-col gap-5"
         onSubmit={(event) => {
@@ -68,7 +71,10 @@ export function LoginPage() {
       </form>
       <p className="text-muted-foreground mt-6 text-sm">
         No account?{' '}
-        <Link className="text-primary font-medium underline-offset-4 hover:underline" to="/register">
+        <Link
+          className="text-primary font-medium underline-offset-4 hover:underline"
+          to="/register"
+        >
           Create one
         </Link>
       </p>

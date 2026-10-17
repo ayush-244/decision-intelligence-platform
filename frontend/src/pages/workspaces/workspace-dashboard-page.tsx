@@ -76,7 +76,12 @@ export function WorkspaceDashboardPage() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <form className="grid gap-4 md:grid-cols-2" onSubmit={(event) => { void handleCreate(event); }}>
+          <form
+            className="grid gap-4 md:grid-cols-2"
+            onSubmit={(event) => {
+              void handleCreate(event);
+            }}
+          >
             <div className="space-y-2">
               <Label htmlFor="workspaceName">Name</Label>
               <Input

@@ -566,8 +566,8 @@ export function LandingPage() {
             </h2>
             <p className="text-muted-foreground mt-4 text-base">
               Analytical trust requires transparency. Delphi is MIT-licensed with documented
-              architecture decisions, a published threat model, and realistic case-study datasets
-              so you can verify the entire pipeline yourself.
+              architecture decisions, a published threat model, and realistic case-study datasets so
+              you can verify the entire pipeline yourself.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Button asChild variant="outline">
@@ -594,8 +594,7 @@ export function LandingPage() {
           >
             <p className="text-muted-foreground"># Run the full platform locally</p>
             <p className="mt-2">
-              <span className="text-primary">$</span> git clone{' '}
-              {GITHUB_URL.replace('https://', '')}
+              <span className="text-primary">$</span> git clone {GITHUB_URL.replace('https://', '')}
             </p>
             <p>
               <span className="text-primary">$</span> cp .env.example .env

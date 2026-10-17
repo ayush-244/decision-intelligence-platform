@@ -102,15 +102,54 @@ export function useSessionCommentMutation(sessionId: string | undefined) {
   });
 }
 
-export function buildCanvasNodes(datasetId: string, projectId: string): WorkspaceState['canvas']['nodes'] {
+export function buildCanvasNodes(
+  datasetId: string,
+  projectId: string,
+): WorkspaceState['canvas']['nodes'] {
   const q = `?project_id=${projectId}`;
   return [
-    { id: 'intelligence', type: 'intelligence', title: 'Data intelligence', status: 'pending', href: `/app/datasets/${datasetId}/intelligence${q}` },
-    { id: 'statistics', type: 'statistics', title: 'Statistical analysis', status: 'pending', href: `/app/datasets/${datasetId}/statistics${q}` },
-    { id: 'causal', type: 'causal', title: 'Causal inference', status: 'pending', href: `/app/datasets/${datasetId}/causal${q}` },
-    { id: 'simulation', type: 'simulation', title: 'Simulation', status: 'pending', href: `/app/datasets/${datasetId}/simulation${q}` },
-    { id: 'decision', type: 'decision', title: 'Recommendations', status: 'pending', href: `/app/datasets/${datasetId}/decision${q}` },
-    { id: 'executive', type: 'executive', title: 'Executive report', status: 'pending', href: `/app/datasets/${datasetId}/executive${q}` },
+    {
+      id: 'intelligence',
+      type: 'intelligence',
+      title: 'Data intelligence',
+      status: 'pending',
+      href: `/app/datasets/${datasetId}/intelligence${q}`,
+    },
+    {
+      id: 'statistics',
+      type: 'statistics',
+      title: 'Statistical analysis',
+      status: 'pending',
+      href: `/app/datasets/${datasetId}/statistics${q}`,
+    },
+    {
+      id: 'causal',
+      type: 'causal',
+      title: 'Causal inference',
+      status: 'pending',
+      href: `/app/datasets/${datasetId}/causal${q}`,
+    },
+    {
+      id: 'simulation',
+      type: 'simulation',
+      title: 'Simulation',
+      status: 'pending',
+      href: `/app/datasets/${datasetId}/simulation${q}`,
+    },
+    {
+      id: 'decision',
+      type: 'decision',
+      title: 'Recommendations',
+      status: 'pending',
+      href: `/app/datasets/${datasetId}/decision${q}`,
+    },
+    {
+      id: 'executive',
+      type: 'executive',
+      title: 'Executive report',
+      status: 'pending',
+      href: `/app/datasets/${datasetId}/executive${q}`,
+    },
   ];
 }
 

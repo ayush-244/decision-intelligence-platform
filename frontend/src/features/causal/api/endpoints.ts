@@ -14,9 +14,7 @@ export async function fetchCausalAnalysis(analysisId: string): Promise<CausalAna
 }
 
 export async function fetchCausalHistory(datasetId: string): Promise<CausalAnalysisRun[]> {
-  return apiFetchData<CausalAnalysisRun[]>(
-    `/api/v1/causal/history?dataset_id=${datasetId}`,
-  );
+  return apiFetchData<CausalAnalysisRun[]>(`/api/v1/causal/history?dataset_id=${datasetId}`);
 }
 
 export async function createDAG(body: {

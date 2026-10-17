@@ -37,7 +37,9 @@ export function useRunCausalAnalysisMutation() {
     mutationFn: (body: CausalAnalyzeRequest) => runCausalAnalysis(body),
     onSuccess: (result) => {
       toast.success('Causal analysis complete', {
-        description: result.result?.interpretation?.business_interpretation?.slice(0, 80) ?? 'Analysis finished',
+        description:
+          result.result?.interpretation?.business_interpretation?.slice(0, 80) ??
+          'Analysis finished',
       });
       void queryClient.invalidateQueries({ queryKey: causalKeys.history(result.dataset_id) });
     },

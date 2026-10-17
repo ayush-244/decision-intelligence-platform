@@ -28,12 +28,12 @@ function PriorityMatrix({ recommendations }: { recommendations: Recommendation[]
         {
           type: 'scatter',
           symbolSize: 14,
-          data: recommendations.map((r) => [
-            r.risk,
-            Math.min(1, (r.roi + 1) / 2),
-            r.title,
-          ]),
-          label: { show: true, formatter: (p: { dataIndex: number }) => `#${p.dataIndex + 1}`, position: 'top' },
+          data: recommendations.map((r) => [r.risk, Math.min(1, (r.roi + 1) / 2), r.title]),
+          label: {
+            show: true,
+            formatter: (p: { dataIndex: number }) => `#${p.dataIndex + 1}`,
+            position: 'top',
+          },
         },
       ],
     }),
@@ -106,7 +106,7 @@ function ResultsPanel({ run }: { run: DecisionRun }) {
                 <p className="font-semibold">{(rec.confidence * 100).toFixed(0)}%</p>
               </div>
               <p className="sm:col-span-2 lg:col-span-4">{rec.business_explanation}</p>
-              <p className="text-xs text-muted-foreground sm:col-span-2 lg:col-span-4">
+              <p className="text-muted-foreground text-xs sm:col-span-2 lg:col-span-4">
                 Evidence: causal {rec.evidence.causal_analysis_id.slice(0, 8)}… → simulation{' '}
                 {rec.evidence.simulation_run_id.slice(0, 8)}…
               </p>
@@ -159,9 +159,7 @@ export function DatasetDecisionPage() {
   const completedSims = (simulations ?? []).filter((s) => s.status === 'completed');
 
   const toggleSim = (id: string) => {
-    setSelectedSims((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
-    );
+    setSelectedSims((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   };
 
   const handleRun = async () => {
@@ -191,7 +189,7 @@ export function DatasetDecisionPage() {
             <Lightbulb className="size-6" />
             Decision Intelligence
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Evidence-backed recommendations — not AI guesses
           </p>
         </div>
@@ -229,7 +227,7 @@ export function DatasetDecisionPage() {
             <div>
               <label className="text-sm font-medium">Primary objective</label>
               <select
-                className="mt-1 w-full rounded-md border bg-background px-3 py-2 text-sm"
+                className="bg-background mt-1 w-full rounded-md border px-3 py-2 text-sm"
                 value={objective}
                 onChange={(e) => setObjective(e.target.value)}
               >
@@ -257,7 +255,7 @@ export function DatasetDecisionPage() {
           </CardHeader>
           <CardContent className="space-y-2">
             {completedSims.length === 0 ? (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 No completed simulations.{' '}
                 <Link
                   to={`/app/datasets/${datasetId}/simulation?project_id=${projectId}`}
@@ -283,7 +281,11 @@ export function DatasetDecisionPage() {
                 </button>
               ))
             )}
-            <Button className="mt-4" onClick={() => setStep(2)} disabled={completedSims.length === 0}>
+            <Button
+              className="mt-4"
+              onClick={() => setStep(2)}
+              disabled={completedSims.length === 0}
+            >
               Continue
             </Button>
           </CardContent>

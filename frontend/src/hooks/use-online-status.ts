@@ -2,9 +2,7 @@ import { useEffect, useState } from 'react';
 
 /** Foundation for offline-aware UI — surfaces navigator.onLine changes. */
 export function useOnlineStatus(): boolean {
-  const [online, setOnline] = useState(
-    typeof navigator !== 'undefined' ? navigator.onLine : true,
-  );
+  const [online, setOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true);
 
   useEffect(() => {
     const onOnline = () => setOnline(true);

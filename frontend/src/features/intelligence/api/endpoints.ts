@@ -45,7 +45,9 @@ export async function fetchDatasetColumnsIntelligence(datasetId: string, version
 
 export async function fetchDatasetCorrelations(datasetId: string, versionId?: string) {
   const query = versionId ? `?version_id=${versionId}` : '';
-  return apiFetchData<Record<string, unknown>>(`/api/v1/datasets/${datasetId}/correlations${query}`);
+  return apiFetchData<Record<string, unknown>>(
+    `/api/v1/datasets/${datasetId}/correlations${query}`,
+  );
 }
 
 export async function fetchDatasetMissing(datasetId: string, versionId?: string) {

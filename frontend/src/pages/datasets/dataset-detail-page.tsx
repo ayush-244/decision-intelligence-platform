@@ -1,7 +1,17 @@
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { Brain, FileText, FlaskConical, LayoutDashboard, Lightbulb, Network, Sigma, Trash2, Upload } from 'lucide-react';
+import {
+  Brain,
+  FileText,
+  FlaskConical,
+  LayoutDashboard,
+  Lightbulb,
+  Network,
+  Sigma,
+  Trash2,
+  Upload,
+} from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -146,7 +156,13 @@ export function DatasetDetailPage() {
               }}
             />
           </label>
-          <Button variant="destructive" size="icon" onClick={() => { void handleDelete(); }}>
+          <Button
+            variant="destructive"
+            size="icon"
+            onClick={() => {
+              void handleDelete();
+            }}
+          >
             <Trash2 className="size-4" />
           </Button>
         </div>

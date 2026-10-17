@@ -35,7 +35,9 @@ function MetricTile({
         <CardDescription>{label}</CardDescription>
         <CardTitle className="text-2xl tabular-nums">{value}</CardTitle>
       </CardHeader>
-      {hint ? <CardContent className="text-muted-foreground pt-0 text-xs">{hint}</CardContent> : null}
+      {hint ? (
+        <CardContent className="text-muted-foreground pt-0 text-xs">{hint}</CardContent>
+      ) : null}
     </Card>
   );
 }
@@ -165,9 +167,7 @@ export function InfrastructureDashboardPage() {
                   </div>
                 </li>
               ))}
-              {jobs.isLoading && (
-                <li className="text-muted-foreground text-sm">Loading jobs…</li>
-              )}
+              {jobs.isLoading && <li className="text-muted-foreground text-sm">Loading jobs…</li>}
               {!jobs.isLoading && (jobs.data ?? []).length === 0 && (
                 <li className="text-muted-foreground text-sm">No background jobs yet.</li>
               )}

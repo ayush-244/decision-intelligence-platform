@@ -1,10 +1,6 @@
 import { apiFetchData } from '@/services/api/client';
 
-import type {
-  DecisionObjective,
-  DecisionRun,
-  RunDecisionRequest,
-} from '@/features/decision/types';
+import type { DecisionObjective, DecisionRun, RunDecisionRequest } from '@/features/decision/types';
 
 export async function runDecisionAnalysis(body: RunDecisionRequest): Promise<DecisionRun> {
   return apiFetchData<DecisionRun>('/api/v1/decisions/analyze', {

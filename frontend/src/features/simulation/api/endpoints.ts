@@ -19,9 +19,7 @@ export async function fetchSimulation(simulationId: string): Promise<SimulationR
 }
 
 export async function fetchSimulationHistory(datasetId: string): Promise<SimulationRun[]> {
-  return apiFetchData<SimulationRun[]>(
-    `/api/v1/simulations/history?dataset_id=${datasetId}`,
-  );
+  return apiFetchData<SimulationRun[]>(`/api/v1/simulations/history?dataset_id=${datasetId}`);
 }
 
 export async function createScenario(body: CreateScenarioRequest): Promise<SimulationScenario> {

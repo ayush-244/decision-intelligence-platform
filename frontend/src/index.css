@@ -110,11 +110,9 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   /* Typography — Inter for UI, Newsreader for display, JetBrains Mono for data. */
-  --font-sans:
-    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: 'Newsreader', 'Iowan Old Style', Georgia, ui-serif, serif;
-  --font-mono:
-    'JetBrains Mono', ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', monospace;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', monospace;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -197,11 +195,7 @@
   /* Scientific plotting-paper motif — Delphi's signature canvas texture. */
   background-image:
     linear-gradient(color-mix(in oklch, var(--border) 70%, transparent) 1px, transparent 1px),
-    linear-gradient(
-      90deg,
-      color-mix(in oklch, var(--border) 70%, transparent) 1px,
-      transparent 1px
-    );
+    linear-gradient(90deg, color-mix(in oklch, var(--border) 70%, transparent) 1px, transparent 1px);
   background-size: 28px 28px;
 }
 

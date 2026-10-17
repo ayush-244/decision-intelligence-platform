@@ -35,12 +35,30 @@ export function CommandPalette({ datasetId, projectId, open, onOpenChange }: Com
     () =>
       datasetId
         ? [
-            { label: 'Open workspace', path: `/app/workspace/${datasetId}?project_id=${projectId ?? ''}` },
-            { label: 'Data intelligence', path: `/app/datasets/${datasetId}/intelligence?project_id=${projectId ?? ''}` },
-            { label: 'Causal analysis', path: `/app/datasets/${datasetId}/causal?project_id=${projectId ?? ''}` },
-            { label: 'Simulation', path: `/app/datasets/${datasetId}/simulation?project_id=${projectId ?? ''}` },
-            { label: 'Decisions', path: `/app/datasets/${datasetId}/decision?project_id=${projectId ?? ''}` },
-            { label: 'Executive report', path: `/app/datasets/${datasetId}/executive?project_id=${projectId ?? ''}` },
+            {
+              label: 'Open workspace',
+              path: `/app/workspace/${datasetId}?project_id=${projectId ?? ''}`,
+            },
+            {
+              label: 'Data intelligence',
+              path: `/app/datasets/${datasetId}/intelligence?project_id=${projectId ?? ''}`,
+            },
+            {
+              label: 'Causal analysis',
+              path: `/app/datasets/${datasetId}/causal?project_id=${projectId ?? ''}`,
+            },
+            {
+              label: 'Simulation',
+              path: `/app/datasets/${datasetId}/simulation?project_id=${projectId ?? ''}`,
+            },
+            {
+              label: 'Decisions',
+              path: `/app/datasets/${datasetId}/decision?project_id=${projectId ?? ''}`,
+            },
+            {
+              label: 'Executive report',
+              path: `/app/datasets/${datasetId}/executive?project_id=${projectId ?? ''}`,
+            },
           ]
         : [{ label: 'Browse datasets', path: '/app/datasets' }],
     [datasetId, projectId],
@@ -73,7 +91,9 @@ export function CommandPalette({ datasetId, projectId, open, onOpenChange }: Com
         <div className="max-h-80 overflow-y-auto p-2">
           {query.length < 2 && (
             <div className="mb-2">
-              <p className="text-muted-foreground px-2 py-1 text-xs font-medium uppercase">Quick actions</p>
+              <p className="text-muted-foreground px-2 py-1 text-xs font-medium uppercase">
+                Quick actions
+              </p>
               {quickActions.map((action) => (
                 <button
                   key={action.path}

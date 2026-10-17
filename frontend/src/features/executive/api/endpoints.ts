@@ -24,28 +24,21 @@ export async function fetchExecutiveReport(reportId: string): Promise<ExecutiveR
 export async function fetchExecutiveReportHistory(
   datasetId: string,
 ): Promise<ExecutiveReportHistoryItem[]> {
-  return apiFetchData<ExecutiveReportHistoryItem[]>(
-    `/api/v1/reports?dataset_id=${datasetId}`,
-  );
+  return apiFetchData<ExecutiveReportHistoryItem[]>(`/api/v1/reports?dataset_id=${datasetId}`);
 }
 
 export async function exportExecutiveReport(
   reportId: string,
   format: 'markdown' | 'csv' | 'json' | 'pdf',
 ): Promise<ExportReportResponse> {
-  return apiFetchData<ExportReportResponse>(
-    `/api/v1/reports/export?report_id=${reportId}`,
-    {
-      method: 'POST',
-      body: JSON.stringify({ format }),
-    },
-  );
+  return apiFetchData<ExportReportResponse>(`/api/v1/reports/export?report_id=${reportId}`, {
+    method: 'POST',
+    body: JSON.stringify({ format }),
+  });
 }
 
 export async function fetchExecutiveDashboard(datasetId: string): Promise<ExecutiveDashboard> {
-  return apiFetchData<ExecutiveDashboard>(
-    `/api/v1/executive/dashboard?dataset_id=${datasetId}`,
-  );
+  return apiFetchData<ExecutiveDashboard>(`/api/v1/executive/dashboard?dataset_id=${datasetId}`);
 }
 
 export async function fetchDecisionHistoryForReports(

@@ -15,7 +15,9 @@ export function listConversations(params?: {
   if (params?.dataset_id) search.set('dataset_id', params.dataset_id);
   if (params?.limit) search.set('limit', String(params.limit));
   const query = search.toString();
-  return apiFetch<CopilotConversation[]>(`/api/v1/copilot/conversations${query ? `?${query}` : ''}`);
+  return apiFetch<CopilotConversation[]>(
+    `/api/v1/copilot/conversations${query ? `?${query}` : ''}`,
+  );
 }
 
 export function getConversation(conversationId: string): Promise<CopilotConversation> {

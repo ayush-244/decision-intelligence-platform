@@ -55,8 +55,7 @@ export function registerChartTheme(): void {
 
   const axisLine = { lineStyle: { color: fb.axis } };
   const splitLine = { lineStyle: { color: fb.split, type: 'solid' as const } };
-  const fontFamily =
-    "'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif";
+  const fontFamily = "'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif";
 
   echarts.registerTheme('delphi', {
     color: palette,

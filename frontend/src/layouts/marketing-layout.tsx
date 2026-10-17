@@ -42,7 +42,12 @@ export function MarketingLayout() {
           <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
             <Brand />
             <nav className="text-muted-foreground flex flex-wrap gap-x-6 gap-y-2 text-xs">
-              <a className="hover:text-foreground transition-colors" href={GITHUB_URL} target="_blank" rel="noreferrer">
+              <a
+                className="hover:text-foreground transition-colors"
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noreferrer"
+              >
                 GitHub
               </a>
               <a
@@ -68,7 +73,9 @@ export function MarketingLayout() {
           </div>
           <div className="text-muted-foreground flex flex-col items-start justify-between gap-2 text-xs sm:flex-row sm:items-center">
             <span>© {new Date().getFullYear()} Delphi · MIT licensed</span>
-            <span className="font-display italic">Statistically rigorous. Transparent by design.</span>
+            <span className="font-display italic">
+              Statistically rigorous. Transparent by design.
+            </span>
           </div>
         </div>
       </footer>

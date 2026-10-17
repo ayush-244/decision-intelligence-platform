@@ -112,9 +112,7 @@ export function CopilotWorkspacePage() {
   const active = conversation.data;
   const allCitations = useMemo(
     () =>
-      (active?.messages ?? [])
-        .filter((m) => m.role === 'assistant')
-        .flatMap((m) => m.citations),
+      (active?.messages ?? []).filter((m) => m.role === 'assistant').flatMap((m) => m.citations),
     [active?.messages],
   );
 
@@ -163,12 +161,13 @@ export function CopilotWorkspacePage() {
     <div className="mx-auto flex h-[calc(100vh-4rem)] w-full max-w-7xl flex-col gap-4 p-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="flex items-center gap-2 text-display text-2xl sm:text-[1.75rem]">
+          <h2 className="text-display flex items-center gap-2 text-2xl sm:text-[1.75rem]">
             <Sparkles className="text-primary size-5" />
             AI Decision Copilot
           </h2>
           <p className="text-muted-foreground text-sm">
-            Business analyst on top of Delphi&apos;s verified analytical engine — never invents numbers.
+            Business analyst on top of Delphi&apos;s verified analytical engine — never invents
+            numbers.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -257,7 +256,10 @@ export function CopilotWorkspacePage() {
               <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1">
                 {(active?.messages ?? []).length === 0 ? (
                   <div className="text-muted-foreground space-y-3 text-sm">
-                    <p>Ask about statistical results, causal assumptions, recommendations, or executive summaries.</p>
+                    <p>
+                      Ask about statistical results, causal assumptions, recommendations, or
+                      executive summaries.
+                    </p>
                     <div className="flex flex-wrap gap-2">
                       {suggested.map((q) => (
                         <button

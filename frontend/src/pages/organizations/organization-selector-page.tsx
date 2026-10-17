@@ -46,8 +46,15 @@ export function OrganizationSelectorPage() {
 
       <div className="grid gap-4 md:grid-cols-2">
         {organizations.data?.map((organization) => (
-          <Card key={organization.id} className="cursor-pointer transition-colors hover:border-foreground/20">
-            <button type="button" className="w-full text-left" onClick={() => selectOrganization(organization.id)}>
+          <Card
+            key={organization.id}
+            className="hover:border-foreground/20 cursor-pointer transition-colors"
+          >
+            <button
+              type="button"
+              className="w-full text-left"
+              onClick={() => selectOrganization(organization.id)}
+            >
               <CardHeader>
                 <div className="flex items-center gap-3">
                   <div className="bg-muted flex size-10 items-center justify-center rounded-md">
@@ -73,7 +80,12 @@ export function OrganizationSelectorPage() {
           <CardDescription>Set up a new tenant for your team.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="flex flex-col gap-4 sm:flex-row sm:items-end" onSubmit={(event) => { void handleCreate(event); }}>
+          <form
+            className="flex flex-col gap-4 sm:flex-row sm:items-end"
+            onSubmit={(event) => {
+              void handleCreate(event);
+            }}
+          >
             <div className="flex-1 space-y-2">
               <Label htmlFor="orgName">Organization name</Label>
               <Input

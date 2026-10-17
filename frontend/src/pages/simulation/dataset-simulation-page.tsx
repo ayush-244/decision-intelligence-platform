@@ -69,7 +69,7 @@ function ResultPanel({ run }: { run: SimulationRun }) {
           </CardHeader>
           <CardContent>
             <MonteCarloChart run={run} />
-            <p className="mt-2 text-sm text-muted-foreground">
+            <p className="text-muted-foreground mt-2 text-sm">
               Tail risk (worse than baseline): {(r.monte_carlo.tail_risk * 100).toFixed(1)}%
             </p>
           </CardContent>
@@ -109,7 +109,7 @@ function ResultPanel({ run }: { run: SimulationRun }) {
           <p>{r.interpretation.business_interpretation}</p>
           <div>
             <p className="font-medium">Limitations</p>
-            <ul className="list-disc pl-5 text-muted-foreground">
+            <ul className="text-muted-foreground list-disc pl-5">
               {r.interpretation.limitations.map((l, i) => (
                 <li key={i}>{l}</li>
               ))}
@@ -132,7 +132,7 @@ function ResultPanel({ run }: { run: SimulationRun }) {
 function Metric({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-lg border p-3">
-      <p className="text-xs text-muted-foreground">{label}</p>
+      <p className="text-muted-foreground text-xs">{label}</p>
       <p className="text-lg font-semibold">{value}</p>
     </div>
   );
@@ -197,7 +197,7 @@ export function DatasetSimulationPage() {
             <FlaskConical className="size-6" />
             Decision Simulation
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Evaluate interventions using causal models — not predictive forecasting
           </p>
         </div>
@@ -227,14 +227,15 @@ export function DatasetSimulationPage() {
           <CardHeader>
             <CardTitle>Choose causal model</CardTitle>
             <CardDescription>
-              Simulations build on Phase 6 causal estimates. Run causal analysis first if none exist.
+              Simulations build on Phase 6 causal estimates. Run causal analysis first if none
+              exist.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {loadingModels ? (
               <Loader2 className="size-6 animate-spin" />
             ) : completedModels.length === 0 ? (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 No completed causal models.{' '}
                 <Link
                   to={`/app/datasets/${datasetId}/causal?project_id=${projectId}`}
@@ -255,14 +256,14 @@ export function DatasetSimulationPage() {
                       setStep(1);
                     }}
                     className={cn(
-                      'w-full rounded-lg border p-3 text-left text-sm hover:bg-muted/50',
+                      'hover:bg-muted/50 w-full rounded-lg border p-3 text-left text-sm',
                       causalAnalysisId === m.id && 'border-primary',
                     )}
                   >
                     <span className="font-medium">
                       {m.treatment} → {m.outcome}
                     </span>
-                    <span className="ml-2 text-muted-foreground">({m.id.slice(0, 8)}…)</span>
+                    <span className="text-muted-foreground ml-2">({m.id.slice(0, 8)}…)</span>
                   </button>
                 ))}
               </div>
@@ -313,7 +314,10 @@ export function DatasetSimulationPage() {
             </div>
             <div>
               <label className="text-sm font-medium">Intervention cost</label>
-              <Input value={interventionCost} onChange={(e) => setInterventionCost(e.target.value)} />
+              <Input
+                value={interventionCost}
+                onChange={(e) => setInterventionCost(e.target.value)}
+              />
             </div>
             <Button
               className="sm:col-span-2"
