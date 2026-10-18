@@ -9,7 +9,7 @@
 # =============================================================================
 
 # ---- Stage 1: dependencies + app ------------------------------------------
-FROM python:3.13-slim AS builder
+FROM python:3.14-slim AS builder
 
 # uv provides fast, deterministic installs from uv.lock.
 COPY --from=ghcr.io/astral-sh/uv:0.8 /uv /uvx /bin/
@@ -34,7 +34,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev
 
 # ---- Stage 2: runtime ------------------------------------------------------
-FROM python:3.13-slim AS runtime
+FROM python:3.14-slim AS runtime
 
 # Create an unprivileged user to run the service.
 RUN groupadd --system delphi && useradd --system --gid delphi --home /app delphi
