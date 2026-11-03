@@ -7,7 +7,7 @@
 # =============================================================================
 
 # ---- Stage 1: build ---------------------------------------------------------
-FROM node:22-alpine AS build
+FROM node:26-alpine AS build
 WORKDIR /app
 
 # Vite inlines VITE_* variables at build time; expose the API URL as a build arg.
